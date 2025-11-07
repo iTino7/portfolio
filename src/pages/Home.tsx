@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react"
-import { Navbar } from "../components"
+import ScrollVelocity from "../components/ScrollVelocity"
+import { Navbar, SectionStrip } from "../components"
 import { Button } from "../components/ui/button"
 
 const NAME = "Sabatino"
@@ -59,6 +60,25 @@ function Home() {
           </div>
         </section>
       </main>
+      <SectionStrip fullWidth innerClassName="px-0">
+        <div className="flex w-full flex-col items-center gap-6 px-4 py-1 md:px-10">
+          <ScrollVelocity
+            texts={["GIVING LIFE TO PROJECTS"]}
+            velocity={40}
+            className="px-4 text-sm font-semibold uppercase tracking-[0.4em] text-background dark:text-foreground"
+            parallaxClassName="w-full"
+            scrollerClassName="gap-5"
+            separator={
+              <span className="flex items-center gap-1" aria-hidden="true">
+                <span className="h-px w-4 rounded-full bg-current" />
+                <span className="h-px w-4 rounded-full bg-current/70" />
+                <span className="h-px w-4 rounded-full bg-current" />
+              </span>
+            }
+            separatorClassName="text-background/70 dark:text-foreground/70"
+          />
+        </div>
+      </SectionStrip>
     </div>
   )
 }
