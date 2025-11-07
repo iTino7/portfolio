@@ -1,6 +1,5 @@
 import { ChevronDown } from "lucide-react"
-import ScrollVelocity from "../components/ScrollVelocity"
-import { Navbar, SectionStrip } from "../components"
+import { Navbar, SectionStrip, ScrollVelocity } from "../components"
 import { Button } from "../components/ui/button"
 
 const NAME = "Sabatino"
@@ -60,22 +59,27 @@ function Home() {
           </div>
         </section>
       </main>
-      <SectionStrip fullWidth innerClassName="px-0">
-        <div className="flex w-full flex-col items-center gap-6 px-4 py-1 md:px-10">
+      <SectionStrip
+        fullWidth
+        innerClassName="px-0"
+        useThemeColors={false}
+        className="bg-[#0d1a13] text-neutral-50 dark:bg-neutral-100 dark:text-neutral-900"
+      >
+        <div className="flex w-full flex-col items-center gap-2 px-4 py-1 md:px-8">
           <ScrollVelocity
             texts={["GIVING LIFE TO PROJECTS"]}
             velocity={40}
-            className="px-4 text-sm font-semibold uppercase tracking-[0.4em] text-background dark:text-foreground"
+            className="px-3 text-xs font-semibold uppercase tracking-[0.45em]"
             parallaxClassName="w-full"
-            scrollerClassName="gap-5"
+            scrollerClassName="gap-4"
             separator={
-              <span className="flex items-center gap-1" aria-hidden="true">
-                <span className="h-px w-4 rounded-full bg-current" />
-                <span className="h-px w-4 rounded-full bg-current/70" />
-                <span className="h-px w-4 rounded-full bg-current" />
+              <span className="flex items-center gap-0.5" aria-hidden="true">
+                <span className="h-px w-3 rounded-full bg-current" />
+                <span className="h-px w-3 rounded-full bg-current/70" />
+                <span className="h-px w-3 rounded-full bg-current" />
               </span>
             }
-            separatorClassName="text-background/70 dark:text-foreground/70"
+            separatorClassName="text-current/70"
           />
         </div>
       </SectionStrip>

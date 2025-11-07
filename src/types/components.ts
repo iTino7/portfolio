@@ -5,4 +5,5 @@ export interface SectionStripProps {
   className?: string
   innerClassName?: string
   fullWidth?: boolean
+  useThemeColors?: boolean
 }

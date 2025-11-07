@@ -24,7 +24,7 @@ export interface VelocityTextProps {
 
 export interface ScrollVelocityProps {
   scrollContainerRef?: RefObject<HTMLElement>
-  texts: string[]
+  texts: ReactNode[]
   velocity?: number
   className?: string
   damping?: number
@@ -37,4 +37,19 @@ export interface ScrollVelocityProps {
   scrollerStyle?: CSSProperties
   separator?: ReactNode
   separatorClassName?: string
+}
+
+export interface ScrollRevealProps {
+  children: string
+  scrollContainerRef?: RefObject<HTMLElement>
+  enableBlur?: boolean
+  baseOpacity?: number
+  baseRotation?: number
+  blurStrength?: number
+  containerClassName?: string
+  textClassName?: string
+  rotationEnd?: string
+  wordAnimationEnd?: string
+  fromColor?: string
+  toColor?: string
 }

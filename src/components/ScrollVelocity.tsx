@@ -113,9 +113,15 @@ export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
           ref={i === 0 ? copyRef : null}
         >
           <span className={className}>{children}</span>
-          {separator ? (
-            <span className={cn('mx-6 opacity-70', separatorClassName)}>{separator}</span>
-          ) : <span className="mx-6" aria-hidden="true">&nbsp;</span>}
+          {separator !== undefined ? (
+            separator ? (
+              <span className={cn('mx-6 opacity-70', separatorClassName)}>{separator}</span>
+            ) : null
+          ) : (
+            <span className="mx-6" aria-hidden="true">
+              &nbsp;
+            </span>
+          )}
         </span>
       );
     }
@@ -123,7 +129,7 @@ export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
     return (
       <div className={`${parallaxClassName} relative overflow-hidden`} style={parallaxStyle}>
         <motion.div
-          className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-20`}
+          className={cn("flex items-center whitespace-nowrap", scrollerClassName)}
           style={{ x, ...scrollerStyle }}
         >
           {spans}
@@ -134,7 +140,7 @@ export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
 
   return (
     <section>
-      {texts.map((text: string, index: number) => (
+      {texts.map((text, index) => (
         <VelocityText
           key={index}
           className={className}

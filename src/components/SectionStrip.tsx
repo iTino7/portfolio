@@ -1,11 +1,12 @@
 import { cn } from "../lib/utils"
 import type { SectionStripProps } from "../types/components"
 
-export function SectionStrip({ children, className, innerClassName, fullWidth = false }: SectionStripProps) {
+export function SectionStrip({ children, className, innerClassName, fullWidth = false, useThemeColors = true }: SectionStripProps) {
   return (
     <div
       className={cn(
-        "w-full overflow-hidden border-t border-foreground/10 bg-foreground text-background transition-colors dark:bg-background dark:text-foreground",
+        "w-full overflow-hidden border-t border-foreground/10 transition-colors",
+        useThemeColors && "bg-foreground text-background dark:bg-background dark:text-foreground",
         className
       )}
     >

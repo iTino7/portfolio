@@ -1,21 +1,10 @@
-import React, { useEffect, useRef, useMemo, ReactNode, RefObject } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+import type { ScrollRevealProps } from '../types/scroll';
 
-interface ScrollRevealProps {
-  children: ReactNode;
-  scrollContainerRef?: RefObject<HTMLElement>;
-  enableBlur?: boolean;
-  baseOpacity?: number;
-  baseRotation?: number;
-  blurStrength?: number;
-  containerClassName?: string;
-  textClassName?: string;
-  rotationEnd?: string;
-  wordAnimationEnd?: string;
-}
+gsap.registerPlugin(ScrollTrigger);
 
 const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
@@ -27,9 +16,12 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   containerClassName = '',
   textClassName = '',
   rotationEnd = 'bottom bottom',
-  wordAnimationEnd = 'bottom bottom'
+  wordAnimationEnd = 'bottom bottom',
+  fromColor = 'var(--muted-foreground)',
+  toColor = 'var(--foreground)'
 }) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
+  const [themeVersion, setThemeVersion] = useState(0);
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
@@ -42,6 +34,39 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
       );
     });
   }, [children]);
+
+  useEffect(() => {
+    const observer = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          setThemeVersion(version => version + 1);
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const { startColor, endColor } = useMemo(() => {
+    const version = themeVersion;
+    void version;
+    const styles = getComputedStyle(document.documentElement);
+    const resolve = (value: string) => {
+      const match = value.match(/^var\((--[^)]+)\)$/);
+      if (match) {
+        return styles.getPropertyValue(match[1]).trim() || value;
+      }
+      return value;
+    };
+
+    return {
+      startColor: resolve(fromColor),
+      endColor: resolve(toColor)
+    };
+  }, [fromColor, toColor, themeVersion]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -69,10 +94,11 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
     gsap.fromTo(
       wordElements,
-      { opacity: baseOpacity, willChange: 'opacity' },
+      { opacity: baseOpacity, color: startColor, willChange: 'opacity, color' },
       {
         ease: 'none',
         opacity: 1,
+        color: endColor,
         stagger: 0.05,
         scrollTrigger: {
           trigger: el,
@@ -106,11 +132,26 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
+  }, [
+    scrollContainerRef,
+    enableBlur,
+    baseRotation,
+    baseOpacity,
+    rotationEnd,
+    wordAnimationEnd,
+    blurStrength,
+    endColor,
+    startColor
+  ]);
 
   return (
     <h2 ref={containerRef} className={`my-5 ${containerClassName}`}>
-      <p className={`text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] font-semibold ${textClassName}`}>{splitText}</p>
+      <p
+        className={`text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium ${textClassName}`}
+        style={{ color: startColor }}
+      >
+        {splitText}
+      </p>
     </h2>
   );
 };
