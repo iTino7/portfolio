@@ -3,20 +3,9 @@ import { useQuery } from "@tanstack/react-query"
 import { ArrowUpRight, Github, Star } from "lucide-react"
 
 import { Navbar } from "../components"
+import type { GithubRepo } from "../types/github"
 
 const GITHUB_USERNAME = "iTino7"
-
-interface GithubRepo {
-  id: number
-  name: string
-  description: string | null
-  html_url: string
-  stargazers_count: number
-  language: string | null
-  fork: boolean
-  archived: boolean
-  updated_at: string
-}
 
 async function fetchGithubRepos(): Promise<GithubRepo[]> {
   const response = await fetch(
