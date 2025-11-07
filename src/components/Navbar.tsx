@@ -3,6 +3,7 @@ import { ThemeToggle } from './ThemeToggle'
 
 const links = [
   { href: '/', label: 'Home', end: true },
+  { href: '/about', label: 'About me' },
   { href: '/works', label: 'Works' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -30,7 +31,7 @@ export function Navbar() {
                   className={({ isActive }) =>
                     `transition-colors ${
                       isActive
-                        ? 'text-foreground'
+                        ? 'text-sky-400 dark:text-sky-300'
                         : 'text-foreground/60 hover:text-foreground'
                     }`
                   }
