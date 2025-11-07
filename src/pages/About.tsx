@@ -1,4 +1,4 @@
-import { Navbar, SectionStrip, ScrollVelocity } from "../components"
+import { SectionStrip, ScrollVelocity } from "../components"
 import {
   SiHtml5,
   SiCss3,
@@ -29,68 +29,66 @@ const techIcons = [
   { id: "mui", Icon: SiMui, hoverClass: "group-hover:text-[#007fff] dark:group-hover:text-[#007fff]" },
 ];
 
-function About() {
+export default function AboutSection() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <main className="flex flex-1 items-start px-6 py-16 md:px-12 lg:px-20">
-        <section className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 text-center">
-          <p className="text-sm uppercase tracking-[0.4em] text-muted-foreground">About Me</p>
+    <section id="about" data-scroll-target className="px-6 pt-16 pb-0 md:px-12 lg:px-20">
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 text-center">
+        <p className="text-sm uppercase tracking-[0.4em] text-muted-foreground">About Me</p>
 
-          <div className="relative flex w-full flex-col items-center gap-5 text-muted-foreground">
-            <span className="pointer-events-none absolute left-0 top-0 -translate-x-2 -translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
-              &lt;h/&gt;
-            </span>
-            <div className="flex w-full max-w-xl flex-col gap-6 text-center">
-              <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-center text-muted-foreground">
-                Sono Sabatino, front-end developer che dà vita a interfacce pulite e coerenti con l’identità del brand. Mi piace trasformare concept grezzi in esperienze tangibili, curando micro-interazioni, performance e qualità del codice. Collaboro con designer e stakeholder per ottenere feedback rapidi e trovare soluzioni chiare, funzionali e pensate per le persone.
-              </p>
-              <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-center text-muted-foreground">
-                Fuori dallo schermo mi dedico a design system, tipografia e motion per portarli nel lavoro di tutti i giorni. Il mio obiettivo è creare esperienze accessibili e piacevoli, dove estetica e funzionalità si incontrano in un equilibrio naturale.
-              </p>
-            </div>
-            <span className="pointer-events-none absolute bottom-0 right-0 translate-x-2 translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
-              &lt;h/&gt;
-            </span>
+        <div className="relative flex w-full flex-col items-center gap-5 text-muted-foreground">
+          <span className="pointer-events-none absolute left-0 top-0 -translate-x-2 -translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
+            &lt;h/&gt;
+          </span>
+          <div className="flex w-full max-w-xl flex-col gap-6 text-center">
+            <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-muted-foreground">
+              Sono Sabatino, front-end developer che dà vita a interfacce pulite e coerenti con l’identità del brand. Mi piace trasformare concept grezzi in esperienze tangibili, curando micro-interazioni, performance e qualità del codice. Collaboro con designer e stakeholder per ottenere feedback rapidi e trovare soluzioni chiare, funzionali e pensate per le persone.
+            </p>
+            <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-muted-foreground">
+              Fuori dallo schermo mi dedico a design system, tipografia e motion per portarli nel lavoro di tutti i giorni. Il mio obiettivo è creare esperienze accessibili e piacevoli, dove estetica e funzionalità si incontrano in un equilibrio naturale.
+            </p>
           </div>
-        </section>
-      </main>
-      <SectionStrip
-        fullWidth
-        innerClassName="px-0"
-        useThemeColors={false}
-        className="bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-950"
-      >
-        <div className="flex w-full flex-col gap-2 px-4 py-5 text-center md:px-6">
-          <p className="mb-2 text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
-            Strumenti che uso ogni giorno
-          </p>
-          <ScrollVelocity
-            texts={[
-              <div key="tech-strip" className="flex items-center gap-4">
-                {techIcons.map(({ id, Icon, hoverClass }) => (
-                  <span
-                    key={id}
-                    className="group inline-flex cursor-pointer items-center justify-center px-3 text-current transition-colors duration-200"
-                  >
-                    <Icon
-                      className={`h-7 w-7 text-inherit transition-colors duration-200 ${hoverClass}`}
-                    />
-                  </span>
-                ))}
-              </div>
-            ]}
-            velocity={20}
-            numCopies={3}
-            className=""
-            parallaxClassName="w-full"
-            scrollerClassName="gap-0"
-            separator={null}
-          />
+          <span className="pointer-events-none absolute bottom-0 right-0 translate-x-2 translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
+            &lt;h/&gt;
+          </span>
         </div>
-      </SectionStrip>
-    </div>
+      </div>
+
+      <div className="-mx-6 mt-12 md:-mx-12 lg:-mx-20">
+        <SectionStrip
+          fullWidth
+          innerClassName="px-0"
+          useThemeColors={false}
+          className="bg-[#0d1a13] text-neutral-50 dark:bg-neutral-100 dark:text-neutral-900"
+        >
+          <div className="flex w-full flex-col items-center gap-2 px-4 py-3 text-center md:px-8">
+            <p className="text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
+              Strumenti che uso ogni giorno
+            </p>
+            <ScrollVelocity
+              texts={[
+                <div key="tech-strip" className="flex w-full items-center justify-center gap-4">
+                  {techIcons.map(({ id, Icon, hoverClass }) => (
+                    <span
+                      key={id}
+                      className="group inline-flex cursor-pointer items-center justify-center px-3 text-current transition-colors duration-200"
+                    >
+                      <Icon
+                        className={`h-7 w-7 text-inherit transition-colors duration-200 ${hoverClass}`}
+                      />
+                    </span>
+                  ))}
+                </div>
+              ]}
+              velocity={20}
+              numCopies={3}
+              className="px-3"
+              parallaxClassName="w-full"
+              scrollerClassName="gap-4"
+              separator={null}
+            />
+          </div>
+        </SectionStrip>
+      </div>
+    </section>
   )
 }
-
-export default About
