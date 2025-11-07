@@ -10,6 +10,8 @@ import {
   SiShadcnui,
   SiZod,
   SiReactquery,
+  SiBootstrap,
+  SiMui,
 } from "react-icons/si"
 
 const techIcons = [
@@ -23,6 +25,8 @@ const techIcons = [
   { id: "shadcn", Icon: SiShadcnui, hoverClass: "group-hover:text-[#0f172a] dark:group-hover:text-[#0f172a]" },
   { id: "zod", Icon: SiZod, hoverClass: "group-hover:text-[#19a974] dark:group-hover:text-[#19a974]" },
   { id: "tanstack-query", Icon: SiReactquery, hoverClass: "group-hover:text-[#ff4154] dark:group-hover:text-[#ff4154]" },
+  { id: "bootstrap", Icon: SiBootstrap, hoverClass: "group-hover:text-[#7952b3] dark:group-hover:text-[#7952b3]" },
+  { id: "mui", Icon: SiMui, hoverClass: "group-hover:text-[#007fff] dark:group-hover:text-[#007fff]" },
 ];
 
 function About() {
@@ -57,25 +61,28 @@ function About() {
         useThemeColors={false}
         className="bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-950"
       >
-        <div className="flex w-full flex-col items-center gap-3 px-4 py-5 md:px-8">
+        <div className="flex w-full flex-col gap-2 px-4 py-5 text-center md:px-6">
+          <p className="mb-2 text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
+            Strumenti che uso ogni giorno
+          </p>
           <ScrollVelocity
             texts={[
-              <div key="tech-strip" className="flex items-center gap-3">
+              <div key="tech-strip" className="flex items-center gap-4">
                 {techIcons.map(({ id, Icon, hoverClass }) => (
                   <span
                     key={id}
-                    className="group inline-flex cursor-pointer items-center justify-center px-2 transition-colors duration-200"
+                    className="group inline-flex cursor-pointer items-center justify-center px-3 text-current transition-colors duration-200"
                   >
                     <Icon
                       className={`h-7 w-7 text-inherit transition-colors duration-200 ${hoverClass}`}
                     />
                   </span>
                 ))}
-              </div>,
+              </div>
             ]}
-            velocity={25}
-            numCopies={5}
-            className="px-3"
+            velocity={20}
+            numCopies={3}
+            className=""
             parallaxClassName="w-full"
             scrollerClassName="gap-0"
             separator={null}
