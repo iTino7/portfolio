@@ -20,22 +20,24 @@ function Home() {
       <Navbar />
       <main className="flex flex-1 items-stretch px-6 py-12 md:px-12 lg:px-20">
         <section className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center gap-16 py-12">
-          <div className="text-right">
+          <div className="text-center sm:text-right">
             <p className="font-initials text-7xl font-semibold leading-[0.9] tracking-tight text-foreground sm:text-8xl md:text-9xl lg:text-[10rem]">
               Hello
             </p>
             <p className="font-initials text-7xl font-semibold leading-[0.9] tracking-tight text-foreground sm:text-8xl md:text-9xl lg:text-[10rem]">
               I&apos;m{' '}
-              <span className="relative inline-block">
-                <span
-                  className="pointer-events-none absolute inset-0 translate-x-2 translate-y-2 select-none text-sky-300/75"
-                  aria-hidden="true"
-                >
-                  {NAME.charAt(0)}
+              <span className="inline-flex items-baseline gap-1 whitespace-nowrap">
+                <span className="relative inline-block">
+                  <span
+                    className="pointer-events-none absolute inset-0 translate-x-[6px] translate-y-[6px] select-none text-sky-300/75 -z-10"
+                    aria-hidden="true"
+                  >
+                    {NAME.charAt(0)}
+                  </span>
+                  <span className="relative z-10">{NAME.charAt(0)}</span>
                 </span>
-                <span className="relative">{NAME.charAt(0)}</span>
+                <span>{NAME.slice(1)}</span>
               </span>
-              {NAME.slice(1)}
             </p>
           </div>
 
