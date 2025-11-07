@@ -86,7 +86,7 @@ function Works() {
             </header>
             <figure className="mt-6 overflow-hidden rounded-2xl border border-foreground/10 bg-background">
               <img
-                src={`https://ghchart.rshah.org/0A5C63/${GITHUB_USERNAME}`}
+                src={`https://ghchart.rshah.org/0C4A6E/${GITHUB_USERNAME}`}
                 alt={`Github contribution chart for ${GITHUB_USERNAME}`}
                 className="w-full"
                 loading="lazy"
