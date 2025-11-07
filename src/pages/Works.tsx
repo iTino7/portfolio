@@ -150,11 +150,7 @@ function Works() {
                       <p className="text-sm text-muted-foreground">
                         {repo.description}
                       </p>
-                    ) : (
-                      <p className="text-sm text-muted-foreground/70">
-                        Nessuna descrizione disponibile.
-                      </p>
-                    )}
+                    ) : null}
                   </div>
 
                   <footer className="mt-6 flex items-center justify-between text-xs text-muted-foreground">
