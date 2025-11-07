@@ -1,0 +1,50 @@
+body {
+  --grid-max-width: min(100%, 72rem);
+  --grid-left: calc((100% - var(--grid-max-width)) / 2);
+  --grid-step: calc(var(--grid-max-width) / 4);
+
+  font-family: "Vend Sans", sans-serif;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 0,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 0,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 0,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 0,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 0,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 1px 100%;
+  background-position:
+    calc(var(--grid-left) + var(--grid-step) * 0) 0,
+    calc(var(--grid-left) + var(--grid-step) * 1) 0,
+    calc(var(--grid-left) + var(--grid-step) * 2) 0,
+    calc(var(--grid-left) + var(--grid-step) * 3) 0,
+    calc(var(--grid-left) + var(--grid-step) * 4) 0;
+  background-repeat: no-repeat;
+}
+
+.font-initials {
+  font-family: "Playfair Display", serif;
+}
