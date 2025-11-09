@@ -26,7 +26,7 @@ const links: NavItem[] = [
   { type: 'scroll', href: '#home', label: 'Home', icon: Home },
   { type: 'scroll', href: '#about', label: 'About me', icon: User },
   { type: 'scroll', href: '#works', label: 'Works', icon: BriefcaseBusiness },
-  { type: 'route', href: '/contact', label: 'Contact', icon: Mail },
+  { type: 'scroll', href: '#contact', label: 'Contact', icon: Mail },
 ]
 
 function handleScrollTo(hash: string) {

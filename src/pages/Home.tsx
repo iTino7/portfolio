@@ -3,7 +3,7 @@ import { ArrowUp } from "lucide-react"
 
 import { Navbar, SectionStrip, ScrollVelocity } from "../components"
 import AboutSection from "./About"
-import { WorksSection } from "./Works"
+import { ContactBanner, ContactSection, FooterSection, WorksSection } from "./Works"
 import { Button } from "../components/ui/button"
 
 const NAME = "Sabatino"
@@ -87,10 +87,13 @@ function Home() {
           </div>
         </SectionStrip>
         <AboutSection />
-        <div className="px-6 pb-16 md:px-12 lg:px-20">
+        <div className="px-6 pb-16 md:px-12 lg:px-20 space-y-24">
           <WorksSection id="works" />
+          <ContactBanner />
+          <ContactSection id="contact" />
         </div>
       </main>
+      <FooterSection />
       <Button
         type="button"
         variant="outline"

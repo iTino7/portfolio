@@ -6,6 +6,7 @@ export function SectionStrip({ children, className, innerClassName, fullWidth = 
     <div
       className={cn(
         "w-full overflow-hidden border-t border-foreground/10 transition-colors",
+        fullWidth && "w-screen max-w-none md:w-screen md:max-w-none ml-[calc(50%-50vw)] mr-[calc(50%-50vw)]",
         useThemeColors && "bg-foreground text-background dark:bg-background dark:text-foreground",
         className
       )}
