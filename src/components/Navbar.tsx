@@ -146,7 +146,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => handleScrollTo(link.href)}
-                className="focus-visible:outline-none"
+                className="focus-visible:outline-none cursor-pointer"
                 aria-current={isActive ? 'true' : undefined}
               >
                 {renderLabel(link, isActive, compact)}

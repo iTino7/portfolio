@@ -10,7 +10,7 @@ import { Textarea } from "../components/ui/textarea"
 const GITHUB_USERNAME = "iTino7"
 const CONTACT_EMAIL = "Sabatino.b007@gmail.com"
 const CONTACT_PHONE = "+39 331 149 4312"
-const CONTACT_LINKEDIN = "https://www.linkedin.com/in/sabatino"
+const CONTACT_LINKEDIN = "https://www.linkedin.com/in/tinoborrelli"
 
 type WorksSectionProps = {
   id?: string
