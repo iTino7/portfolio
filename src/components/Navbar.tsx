@@ -25,7 +25,7 @@ type NavItem = NavRouteItem | NavScrollItem
 const links: NavItem[] = [
   { type: 'scroll', href: '#home', label: 'Home', icon: Home },
   { type: 'scroll', href: '#about', label: 'About me', icon: User },
-  { type: 'route', href: '/works', label: 'Works', icon: BriefcaseBusiness },
+  { type: 'scroll', href: '#works', label: 'Works', icon: BriefcaseBusiness },
   { type: 'route', href: '/contact', label: 'Contact', icon: Mail },
 ]
 

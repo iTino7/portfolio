@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react"
 import { Navbar, SectionStrip, ScrollVelocity } from "../components"
 import AboutSection from "./About"
+import { WorksSection } from "./Works"
 import { Button } from "../components/ui/button"
 
 const NAME = "Sabatino"
@@ -88,6 +89,9 @@ function Home() {
           </div>
         </SectionStrip>
         <AboutSection />
+        <div className="px-6 pb-16 md:px-12 lg:px-20">
+          <WorksSection id="works" />
+        </div>
       </main>
     </div>
   )
