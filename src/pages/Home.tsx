@@ -1,4 +1,6 @@
-import { ChevronDown } from "lucide-react"
+import { useEffect, useState } from "react"
+import { ArrowUp } from "lucide-react"
+
 import { Navbar, SectionStrip, ScrollVelocity } from "../components"
 import AboutSection from "./About"
 import { WorksSection } from "./Works"
@@ -7,14 +9,20 @@ import { Button } from "../components/ui/button"
 const NAME = "Sabatino"
 
 function Home() {
-  const handleScrollHintClick = () => {
-    const target = document.querySelector("[data-scroll-target]") as HTMLElement | null
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" })
-    } else {
-      window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400)
     }
+
+    handleScroll()
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   return (
@@ -26,7 +34,7 @@ function Home() {
           data-scroll-target
           className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center gap-16 px-6 py-12 md:px-12 lg:px-20"
         >
-          <div className="text-center sm:text-right">
+          <div className="text-center sm:text-right space-y-6">
             <p className="font-initials text-7xl font-semibold leading-[0.9] tracking-tight text-foreground sm:text-8xl md:text-9xl lg:text-[10rem]">
               Hello
             </p>
@@ -47,21 +55,11 @@ function Home() {
             </p>
           </div>
 
-          <div className="flex w-full max-w-6xl items-center justify-between gap-6 text-xl leading-relaxed text-muted-foreground">
+          <div className="flex w-full max-w-6xl justify-start text-xl leading-relaxed text-muted-foreground">
             <p className="max-w-sm text-left">
               <span className="font-semibold text-primary">I am a front-end developer</span>{' '}
               who constantly seeks out innovative solutions to everyday problems.
             </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon-lg"
-              className="relative mr-1 cursor-pointer rounded-full border border-foreground/20 bg-background/70 hover:-translate-y-0.5"
-              onClick={handleScrollHintClick}
-              aria-label="Scroll down"
-            >
-              <ChevronDown className="h-6 w-6" />
-            </Button>
           </div>
         </section>
         <SectionStrip
@@ -93,6 +91,22 @@ function Home() {
           <WorksSection id="works" />
         </div>
       </main>
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        className={`group fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full border-foreground/30 bg-background/75 shadow-lg backdrop-blur transition-all duration-300 ease-out hover:-translate-y-0.5 ${
+          showScrollTop
+            ? "pointer-events-auto opacity-100 translate-y-0"
+            : "pointer-events-none opacity-0 translate-y-2"
+        }`}
+        onClick={handleScrollToTop}
+        aria-label="Torna all'inizio"
+        tabIndex={showScrollTop ? 0 : -1}
+        aria-hidden={!showScrollTop}
+      >
+        <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" />
+      </Button>
     </div>
   )
 }
