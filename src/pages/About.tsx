@@ -39,8 +39,8 @@ export default function AboutSection() {
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 text-center">
         <p className="text-sm uppercase tracking-[0.4em] text-muted-foreground">About Me</p>
 
-        <div className="relative flex w-full flex-col items-center gap-5 text-muted-foreground">
-          <span className="pointer-events-none absolute left-0 -top-8 -translate-x-2 font-script text-4xl text-foreground/30 dark:text-foreground/40 md:-top-2 md:-translate-y-2">
+        <div className="relative flex w-full flex-col items-center gap-5 text-muted-foreground pt-16 pb-16 md:pt-0 md:pb-0">
+          <span className="pointer-events-none absolute left-0 top-0 -translate-x-2 font-script text-4xl text-foreground/30 dark:text-foreground/40 md:-top-2 md:-translate-y-2">
             &lt;h/&gt;
           </span>
           <div className="flex w-full max-w-xl flex-col gap-6 text-center">
