@@ -274,7 +274,7 @@ export function ContactSection({ id }: ContactSectionProps) {
           </div>
           <Button
             type="submit"
-            className="w-full justify-center gap-2"
+            className="w-full justify-center gap-2 cursor-pointer"
             disabled={status === "loading"}
           >
             {status === "loading" ? "Invio in corso..." : "Invia messaggio"}
