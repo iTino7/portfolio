@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useState, type ComponentType } from 'react'
-import { Home, User, BriefcaseBusiness, Mail } from 'lucide-react'
+import { Home, User, BriefcaseBusiness, Mail, Menu, X } from 'lucide-react'
 
 import { cn } from '../lib/utils'
 import { ThemeToggle } from './ThemeToggle'
@@ -40,6 +40,7 @@ export function Navbar() {
   const [isCompressed, setIsCompressed] = useState(false)
   const [showFloatingNav, setShowFloatingNav] = useState(false)
   const [activeHash, setActiveHash] = useState<string>('#home')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -86,13 +87,36 @@ export function Navbar() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('overflow-hidden')
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [isMobileMenuOpen])
+
   const listClassName = useMemo(
     () => 'flex items-center gap-6 text-lg font-medium',
     []
   )
 
   const renderLabel = useCallback(
-    (item: NavItem, isActive: boolean, compact: boolean) => {
+    (item: NavItem, isActive: boolean, compact: boolean, showLabel: boolean) => {
       const Icon = item.icon
       return (
         <span
@@ -103,59 +127,105 @@ export function Navbar() {
           )}
         >
           <Icon className={cn('h-5 w-5', isActive && 'text-sky-400 dark:text-sky-300')} />
-          {!compact && item.label}
+          {!compact && showLabel && item.label}
         </span>
       )
     },
     []
   )
 
-  const renderLinks = useCallback(
-    (compact: boolean) => (
-      <ul
-        className={cn(
-          listClassName,
-          compact && 'flex-col gap-3 text-sm'
-        )}
+  const renderBrand = useCallback(
+    (onClick?: () => void) => (
+      <Link
+        to="/"
+        onClick={onClick}
+        className="font-initials inline-flex items-center gap-1 text-3xl font-semibold tracking-wide text-foreground transition-transform duration-300"
+        aria-label="Home"
       >
-        {links.map((link) => {
-          if (link.type === 'route') {
+        <span>S</span>
+        <span className="text-2xl leading-none">•</span>
+        <span>B</span>
+      </Link>
+    ),
+    []
+  )
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev)
+  }, [])
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false)
+  }, [])
+
+  const renderLinks = useCallback(
+    (
+      options: {
+        compact?: boolean
+        className?: string
+        onNavigate?: () => void
+        showLabels?: boolean
+        includeThemeToggle?: boolean
+      } = {}
+    ) => {
+      const { compact = false, className, onNavigate, showLabels = true, includeThemeToggle = false } = options
+
+      return (
+        <ul
+          className={cn(
+            listClassName,
+            compact && 'flex-col gap-3 text-sm',
+            className
+          )}
+        >
+          {links.map((link) => {
+            if (link.type === 'route') {
+              return (
+                <li key={link.href}>
+                  <NavLink
+                    to={link.href}
+                    end={link.end}
+                    className={({ isActive }) =>
+                      cn(
+                        'transition-colors',
+                        isActive
+                          ? 'text-sky-400 dark:text-sky-300'
+                          : 'text-foreground/60 hover:text-foreground'
+                      )
+                    }
+                    onClick={onNavigate}
+                  >
+                    {({ isActive }) => renderLabel(link, isActive, compact, showLabels)}
+                  </NavLink>
+                </li>
+              )
+            }
+
+            const isActive = activeHash === link.href
             return (
               <li key={link.href}>
-                <NavLink
-                  to={link.href}
-                  end={link.end}
-                  className={({ isActive }) =>
-                    cn(
-                      'transition-colors',
-                      isActive
-                        ? 'text-sky-400 dark:text-sky-300'
-                        : 'text-foreground/60 hover:text-foreground'
-                    )
-                  }
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleScrollTo(link.href)
+                    onNavigate?.()
+                  }}
+                  className="focus-visible:outline-none cursor-pointer"
+                  aria-current={isActive ? 'true' : undefined}
                 >
-                  {({ isActive }) => renderLabel(link, isActive, compact)}
-                </NavLink>
+                  {renderLabel(link, isActive, compact, showLabels)}
+                </button>
               </li>
             )
-          }
-
-          const isActive = activeHash === link.href
-          return (
-            <li key={link.href}>
-              <button
-                type="button"
-                onClick={() => handleScrollTo(link.href)}
-                className="focus-visible:outline-none cursor-pointer"
-                aria-current={isActive ? 'true' : undefined}
-              >
-                {renderLabel(link, isActive, compact)}
-              </button>
+          })}
+          {includeThemeToggle && (
+            <li>
+              <ThemeToggle />
             </li>
-          )
-        })}
-      </ul>
-    ),
+          )}
+        </ul>
+      )
+    },
     [activeHash, listClassName, renderLabel]
   )
 
@@ -163,21 +233,50 @@ export function Navbar() {
     <>
       <header className="w-full px-6 py-4 transition-all duration-300 md:px-12 lg:px-20">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <Link
-            to="/"
-            className="font-initials inline-flex items-center gap-1 text-3xl font-semibold tracking-wide text-foreground transition-transform duration-300"
-            aria-label="Home"
-          >
-            <span>S</span>
-            <span className="text-2xl leading-none">•</span>
-            <span>B</span>
-          </Link>
-          <div className="flex items-center gap-6">
-            {renderLinks(false)}
-            <ThemeToggle />
+          {renderBrand()}
+          <div className="flex items-center gap-3 md:gap-6">
+            <div className="hidden md:flex items-center gap-6">
+              {renderLinks()}
+              <ThemeToggle />
+            </div>
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10 text-foreground transition hover:border-foreground/40 hover:text-foreground md:hidden"
+              onClick={toggleMobileMenu}
+              aria-expanded={isMobileMenuOpen}
+              aria-label={isMobileMenuOpen ? 'Chiudi menu di navigazione' : 'Apri menu di navigazione'}
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
         </nav>
       </header>
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-md md:hidden">
+          <div className="flex items-center justify-between px-6 py-4">
+            {renderBrand(closeMobileMenu)}
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10 text-foreground transition hover:border-foreground/40 hover:text-foreground"
+              onClick={toggleMobileMenu}
+              aria-label="Chiudi menu di navigazione"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="flex flex-1 flex-col items-center gap-10 px-6 py-8">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {renderLinks({
+                compact: false,
+                showLabels: false,
+                className: 'flex-row flex-wrap justify-center gap-6 text-foreground',
+                onNavigate: closeMobileMenu,
+                includeThemeToggle: true,
+              })}
+            </div>
+          </div>
+        </div>
+      )}
       <aside
         className={cn(
           'fixed left-6 top-1/2 z-40 flex w-auto -translate-y-1/2 flex-col items-center gap-4 rounded-full bg-background/80 px-3 py-4 shadow-lg backdrop-blur transition-all duration-300 ease-out',
@@ -187,8 +286,9 @@ export function Navbar() {
         )}
         aria-hidden={!showFloatingNav}
       >
-        {renderLinks(true)}
-        <ThemeToggle />
+        <div className="flex flex-col items-center gap-4">
+          {renderLinks({ compact: true, showLabels: false, includeThemeToggle: true })}
+        </div>
       </aside>
     </>
   )
