@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Textarea } from "../components/ui/textarea"
+import { type ContactFormErrors, type ContactFormValues, validateContactForm } from "../lib/contact-schema"
 
 const GITHUB_USERNAME = "iTino7"
 const CONTACT_EMAIL = "Sabatino.b007@gmail.com"
@@ -18,6 +19,13 @@ type WorksSectionProps = {
 
 type ContactSectionProps = {
   id?: string
+}
+
+function scrollToContact(id: string) {
+  const target = document.querySelector(id)
+  if (target instanceof HTMLElement) {
+    target.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
 }
 
 export function WorksSection({ id }: WorksSectionProps) {
@@ -88,11 +96,49 @@ export function WorksSection({ id }: WorksSectionProps) {
 
 export function ContactSection({ id }: ContactSectionProps) {
   const [status, setStatus] = useState<"idle" | "success">("idle")
+  const [errors, setErrors] = useState<ContactFormErrors>({})
+
+  const clearError = (field: keyof ContactFormValues) => {
+    setErrors((previous) => {
+      if (!previous[field]) {
+        return previous
+      }
+      const next = { ...previous }
+      delete next[field]
+      return next
+    })
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.currentTarget
+    setStatus("idle")
 
+    const formData = new FormData(form)
+    const rawData: ContactFormValues = {
+      name: formData.get("name")?.toString()?.trim() ?? "",
+      email: formData.get("email")?.toString()?.trim() ?? "",
+      phone: (() => {
+        const value = formData.get("phone")?.toString().trim()
+        return value ? value : undefined
+      })(),
+      message: formData.get("message")?.toString()?.trim() ?? "",
+    }
+
+    const parsed = validateContactForm(rawData)
+
+    if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors
+      setErrors({
+        name: fieldErrors.name?.[0],
+        email: fieldErrors.email?.[0],
+        phone: fieldErrors.phone?.[0],
+        message: fieldErrors.message?.[0],
+      })
+      return
+    }
+
+    setErrors({})
     form.reset()
     setStatus("success")
   }
@@ -153,22 +199,76 @@ export function ContactSection({ id }: ContactSectionProps) {
       </div>
 
       <div className="rounded-3xl border border-foreground/5 bg-background/80 p-6 shadow-sm">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-2">
             <Label htmlFor="name">Nome</Label>
-            <Input id="name" name="name" placeholder="Il tuo nome" required autoComplete="name" />
+            <Input
+              id="name"
+              name="name"
+              placeholder="Il tuo nome"
+              autoComplete="name"
+              aria-invalid={errors.name ? true : undefined}
+              aria-describedby={errors.name ? "contact-name-error" : undefined}
+              onChange={() => clearError("name")}
+            />
+            {errors.name && (
+              <p id="contact-name-error" className="text-sm text-destructive">
+                {errors.name}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="tuo@indirizzo.com" required autoComplete="email" />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="tuo@indirizzo.com"
+              autoComplete="email"
+              aria-invalid={errors.email ? true : undefined}
+              aria-describedby={errors.email ? "contact-email-error" : undefined}
+              onChange={() => clearError("email")}
+            />
+            {errors.email && (
+              <p id="contact-email-error" className="text-sm text-destructive">
+                {errors.email}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">Telefono (opzionale)</Label>
-            <Input id="phone" name="phone" type="tel" placeholder="+39 333 000 0000" autoComplete="tel" />
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="+39 333 000 0000"
+              autoComplete="tel"
+              aria-invalid={errors.phone ? true : undefined}
+              aria-describedby={errors.phone ? "contact-phone-error" : undefined}
+              onChange={() => clearError("phone")}
+            />
+            {errors.phone && (
+              <p id="contact-phone-error" className="text-sm text-destructive">
+                {errors.phone}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="message">Messaggio</Label>
-            <Textarea id="message" name="message" placeholder="Raccontami qualcosa del tuo progetto..." required rows={6} />
+            <Textarea
+              id="message"
+              name="message"
+              placeholder="Raccontami qualcosa del tuo progetto..."
+              rows={6}
+              aria-invalid={errors.message ? true : undefined}
+              aria-describedby={errors.message ? "contact-message-error" : undefined}
+              onChange={() => clearError("message")}
+            />
+            {errors.message && (
+              <p id="contact-message-error" className="text-sm text-destructive">
+                {errors.message}
+              </p>
+            )}
           </div>
           <Button type="submit" className="w-full justify-center gap-2">
             Invia messaggio
@@ -204,7 +304,15 @@ export function ContactBanner() {
         size="lg"
         className="px-6 bg-background text-foreground hover:bg-background/90 dark:bg-neutral-900 dark:text-neutral-50 dark:hover:bg-neutral-800"
       >
-        <a href="#contact">Parliamone</a>
+        <a
+          href="#contact"
+          onClick={(event) => {
+            event.preventDefault()
+            scrollToContact("#contact")
+          }}
+        >
+          Parliamone
+        </a>
       </Button>
     </SectionStrip>
   )
