@@ -3,7 +3,8 @@ import { ArrowUp } from "lucide-react"
 
 import { Navbar, SectionStrip, ScrollVelocity } from "../components"
 import AboutSection from "./About"
-import { ContactBanner, ContactSection, FooterSection, WorksSection } from "./Works"
+import { WorksSection } from "./Works"
+import { ContactBanner, ContactSection, FooterSection } from "../components/Contact"
 import { Button } from "../components/ui/button"
 
 const NAME = "Sabatino"
