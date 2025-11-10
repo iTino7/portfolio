@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useState, type ComponentType } from 'react'
-import { Home, User, BriefcaseBusiness, Mail, Menu, X } from 'lucide-react'
+import { Home, User, BriefcaseBusiness, Mail } from 'lucide-react'
 
 import { cn } from '../lib/utils'
 import { ThemeToggle } from './ThemeToggle'
@@ -40,7 +40,6 @@ export function Navbar() {
   const [isCompressed, setIsCompressed] = useState(false)
   const [showFloatingNav, setShowFloatingNav] = useState(false)
   const [activeHash, setActiveHash] = useState<string>('#home')
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -87,29 +86,6 @@ export function Navbar() {
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false)
-      }
-    }
-
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add('overflow-hidden')
-    } else {
-      document.body.classList.remove('overflow-hidden')
-    }
-
-    return () => {
-      document.body.classList.remove('overflow-hidden')
-    }
-  }, [isMobileMenuOpen])
-
   const listClassName = useMemo(
     () => 'flex items-center gap-6 text-lg font-medium',
     []
@@ -149,14 +125,6 @@ export function Navbar() {
     ),
     []
   )
-
-  const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen((prev) => !prev)
-  }, [])
-
-  const closeMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(false)
-  }, [])
 
   const renderLinks = useCallback(
     (
@@ -227,7 +195,7 @@ export function Navbar() {
         </ul>
       )
     },
-    [activeHash, listClassName, renderLabel, setActiveHash]
+    [activeHash, listClassName, renderLabel]
   )
 
   return (
@@ -236,48 +204,16 @@ export function Navbar() {
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between">
           {renderBrand()}
           <div className="flex items-center gap-3 md:gap-6">
+            <div className="md:hidden">
+              <ThemeToggle />
+            </div>
             <div className="hidden md:flex items-center gap-6">
               {renderLinks()}
               <ThemeToggle />
             </div>
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10 text-foreground transition hover:border-foreground/40 hover:text-foreground md:hidden"
-              onClick={toggleMobileMenu}
-              aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? 'Chiudi menu di navigazione' : 'Apri menu di navigazione'}
-            >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
           </div>
         </nav>
       </header>
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-md md:hidden">
-          <div className="flex items-center justify-between px-6 py-4">
-            {renderBrand(closeMobileMenu)}
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10 text-foreground transition hover:border-foreground/40 hover:text-foreground"
-              onClick={toggleMobileMenu}
-              aria-label="Chiudi menu di navigazione"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-          <div className="flex flex-1 flex-col items-center gap-10 px-6 py-8">
-            <div className="flex flex-wrap items-center justify-center gap-6">
-              {renderLinks({
-                compact: false,
-                showLabels: false,
-                className: 'flex-row flex-wrap justify-center gap-6 text-foreground',
-                onNavigate: closeMobileMenu,
-                includeThemeToggle: true,
-              })}
-            </div>
-          </div>
-        </div>
-      )}
       <aside
         className={cn(
           'fixed left-6 top-1/2 z-40 flex w-auto -translate-y-1/2 flex-col items-center gap-4 rounded-full bg-background/80 px-3 py-4 shadow-lg backdrop-blur transition-all duration-300 ease-out',
