@@ -1,6 +1,8 @@
 import { type FormEvent, useCallback, useMemo, useState } from "react"
 import { Linkedin, Mail, Phone, SendHorizonal } from "lucide-react"
 
+import { toast } from "sonner"
+
 import { SectionStrip } from "./SectionStrip"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
@@ -115,22 +117,29 @@ export function ContactSection({ id }: ContactSectionProps) {
           }
 
           setStatus("error")
-          setServerError("Controlla i campi evidenziati e riprova.")
+          const feedbackMessage = "Controlla i campi evidenziati e riprova."
+          setServerError(feedbackMessage)
+          toast.error(feedbackMessage, { duration: Infinity })
           return
         }
 
         if (!response.ok) {
           setStatus("error")
-          setServerError("Si è verificato un errore durante l'invio. Riprova più tardi.")
+          const feedbackMessage = "Si è verificato un errore durante l'invio. Riprova più tardi."
+          setServerError(feedbackMessage)
+          toast.error(feedbackMessage, { duration: Infinity })
           return
         }
 
         form.reset()
         setServerError(null)
         setStatus("success")
+        toast.success("Messaggio inviato! Ti risponderò il prima possibile.", { duration: Infinity })
       } catch {
         setStatus("error")
-        setServerError("Connessione al server non riuscita. Verifica la rete o riprova più tardi.")
+        const feedbackMessage = "Connessione al server non riuscita. Verifica la rete o riprova più tardi."
+        setServerError(feedbackMessage)
+        toast.error(feedbackMessage, { duration: Infinity })
       }
     },
     [mappedEndpoint]
@@ -271,9 +280,6 @@ export function ContactSection({ id }: ContactSectionProps) {
             {status === "loading" ? "Invio in corso..." : "Invia messaggio"}
             <SendHorizonal className="h-4 w-4" />
           </Button>
-          {status === "success" && (
-            <p className="text-sm text-primary">Messaggio inviato! Ti risponderò il prima possibile.</p>
-          )}
           {serverError && <p className="text-sm text-destructive">{serverError}</p>}
         </form>
       </div>
