@@ -24,9 +24,9 @@ type NavItem = NavRouteItem | NavScrollItem
 
 const links: NavItem[] = [
   { type: 'scroll', href: '#home', label: 'Home', icon: Home },
-  { type: 'scroll', href: '#about', label: 'About me', icon: User },
-  { type: 'scroll', href: '#works', label: 'Works', icon: BriefcaseBusiness },
-  { type: 'scroll', href: '#contact', label: 'Contact', icon: Mail },
+  { type: 'scroll', href: '#about', label: 'Chi sono', icon: User },
+  { type: 'scroll', href: '#works', label: 'Progetti', icon: BriefcaseBusiness },
+  { type: 'scroll', href: '#contact', label: 'Contatti', icon: Mail },
 ]
 
 function handleScrollTo(hash: string) {
@@ -287,7 +287,7 @@ export function Navbar() {
         aria-hidden={!showFloatingNav}
       >
         <div className="flex flex-col items-center gap-4">
-          {renderLinks({ compact: true, showLabels: false, includeThemeToggle: true })}
+          {renderLinks({ compact: true, showLabels: false, includeThemeToggle: true, className: 'items-center' })}
         </div>
       </aside>
     </>

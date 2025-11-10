@@ -16,20 +16,20 @@ export function WorksSection({ id }: WorksSectionProps) {
       data-scroll-target={id ? true : undefined}
       className="mx-auto flex w-full max-w-6xl flex-col gap-12"
     >
-      <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div className="flex flex-col gap-4">
+      <header className="flex flex-col items-center gap-6 text-center">
+        <figure className="h-32 w-32 overflow-hidden rounded-full border border-foreground/10 bg-background shadow-md md:h-40 md:w-40">
+          <img
+            src={`https://github.com/${GITHUB_USERNAME}.png?size=360`}
+            alt={`Avatar GitHub di ${GITHUB_USERNAME}`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </figure>
+        <div className="flex flex-col items-center gap-4 text-center">
           <p className="font-initials text-6xl font-semibold leading-none text-foreground sm:text-7xl md:text-8xl">
-            Selected Works
+            Progetti
           </p>
-          <figure className="h-32 w-32 overflow-hidden rounded-full border border-foreground/10 bg-background shadow-md md:h-40 md:w-40">
-            <img
-              src={`https://github.com/${GITHUB_USERNAME}.png?size=360`}
-              alt={`Avatar GitHub di ${GITHUB_USERNAME}`}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          </figure>
-          <p className="mt-3 max-w-xl text-base text-muted-foreground">
+          <p className="max-w-xl text-base text-muted-foreground">
             Una selezione dei progetti più recenti dal mio profilo GitHub.
           </p>
         </div>

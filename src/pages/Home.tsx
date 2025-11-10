@@ -58,8 +58,8 @@ function Home() {
 
           <div className="flex w-full max-w-6xl justify-start text-xl leading-relaxed text-muted-foreground">
             <p className="max-w-sm text-left">
-              <span className="font-semibold text-primary">I am a front-end developer</span>{' '}
-              who constantly seeks out innovative solutions to everyday problems.
+              <span className="font-semibold text-primary">Sono uno sviluppatore front-end</span>{' '}
+              che cerca costantemente soluzioni innovative ai problemi quotidiani.
             </p>
           </div>
         </section>

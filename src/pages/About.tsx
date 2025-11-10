@@ -44,7 +44,7 @@ export default function AboutSection() {
               Sono Sabatino, front-end developer che dà vita a interfacce pulite e coerenti con l’identità del brand. Mi piace trasformare concept grezzi in esperienze tangibili, curando micro-interazioni, performance e qualità del codice. Collaboro con designer e stakeholder per ottenere feedback rapidi e trovare soluzioni chiare, funzionali e pensate per le persone.
             </p>
             <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-muted-foreground">
-              Fuori dallo schermo mi dedico a design system, tipografia e motion per portarli nel lavoro di tutti i giorni. Il mio obiettivo è creare esperienze accessibili e piacevoli, dove estetica e funzionalità si incontrano in un equilibrio naturale.
+              Fuori dallo schermo mi dedico alle mie passioni: sport, film e serie TV. Mi aiutano a mantenere disciplina, intuito narrativo e attenzione ai dettagli—gli stessi ingredienti che porto nei progetti digitali per renderli coinvolgenti e ben equilibrati.
             </p>
           </div>
           <span className="pointer-events-none absolute bottom-0 right-0 translate-x-2 translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
@@ -61,7 +61,7 @@ export default function AboutSection() {
           className="bg-[#0d1a13] text-neutral-50 dark:bg-neutral-100 dark:text-neutral-900"
         >
           <div className="flex w-full flex-col items-center gap-2 px-4 py-3 text-center md:px-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
+            <p className="mb-4 text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
               Strumenti che uso ogni giorno
             </p>
             <ScrollVelocity
