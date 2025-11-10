@@ -73,7 +73,7 @@ export function Navbar() {
       },
       {
         rootMargin: '-45% 0px -45% 0px',
-        threshold: 0.1,
+        threshold: 0.15,
       }
     )
 
@@ -207,6 +207,7 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={() => {
+                    setActiveHash(link.href)
                     handleScrollTo(link.href)
                     onNavigate?.()
                   }}
@@ -226,7 +227,7 @@ export function Navbar() {
         </ul>
       )
     },
-    [activeHash, listClassName, renderLabel]
+    [activeHash, listClassName, renderLabel, setActiveHash]
   )
 
   return (

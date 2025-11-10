@@ -14,7 +14,7 @@ export function WorksSection({ id }: WorksSectionProps) {
     <section
       id={id}
       data-scroll-target={id ? true : undefined}
-      className="mx-auto flex w-full max-w-6xl flex-col gap-12"
+      className="mx-auto flex w-full max-w-6xl flex-col gap-12 scroll-mt-32"
     >
       <header className="flex flex-col items-center gap-6 text-center">
         <figure className="h-32 w-32 overflow-hidden rounded-full border border-foreground/10 bg-background shadow-md md:h-40 md:w-40">

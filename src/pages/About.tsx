@@ -31,12 +31,16 @@ const techIcons = [
 
 export default function AboutSection() {
   return (
-    <section id="about" data-scroll-target className="px-6 pt-16 pb-0 md:px-12 lg:px-20">
+    <section
+      id="about"
+      data-scroll-target
+      className="px-6 pt-0 pb-0 md:px-12 lg:px-20 scroll-mt-32"
+    >
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 text-center">
         <p className="text-sm uppercase tracking-[0.4em] text-muted-foreground">About Me</p>
 
         <div className="relative flex w-full flex-col items-center gap-5 text-muted-foreground">
-          <span className="pointer-events-none absolute left-0 top-0 -translate-x-2 -translate-y-2 font-script text-4xl text-foreground/30 dark:text-foreground/40">
+          <span className="pointer-events-none absolute left-0 -top-8 -translate-x-2 font-script text-4xl text-foreground/30 dark:text-foreground/40 md:-top-2 md:-translate-y-2">
             &lt;h/&gt;
           </span>
           <div className="flex w-full max-w-xl flex-col gap-6 text-center">
@@ -53,24 +57,24 @@ export default function AboutSection() {
         </div>
       </div>
 
-      <div className="-mx-6 mt-12 md:-mx-12 lg:-mx-20">
+      <div className="-mx-6 mt-8 md:-mx-12 lg:-mx-20">
         <SectionStrip
           fullWidth
-          innerClassName="px-0"
+          innerClassName="px-0 py-6 md:py-8"
           useThemeColors={false}
           className="bg-[#0d1a13] text-neutral-50 dark:bg-neutral-100 dark:text-neutral-900"
         >
-          <div className="flex w-full flex-col items-center gap-2 px-4 py-3 text-center md:px-8">
-            <p className="mb-4 text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
+          <div className="flex w-full flex-col items-center gap-1.5 px-4 py-2 text-center md:px-6">
+            <p className="mb-3 text-xs uppercase tracking-[0.35em] text-current/70 font-initials">
               Strumenti che uso ogni giorno
             </p>
             <ScrollVelocity
               texts={[
-                <div key="tech-strip" className="flex w-full items-center justify-center gap-4">
+                <div key="tech-strip" className="flex w-full items-center justify-center gap-3">
                   {techIcons.map(({ id, Icon, hoverClass }) => (
                     <span
                       key={id}
-                      className="group inline-flex cursor-pointer items-center justify-center px-3 text-current transition-colors duration-200"
+                      className="group inline-flex cursor-pointer items-center justify-center px-2.5 text-current transition-colors duration-200"
                     >
                       <Icon
                         className={`h-7 w-7 text-inherit transition-colors duration-200 ${hoverClass}`}
@@ -79,11 +83,11 @@ export default function AboutSection() {
                   ))}
                 </div>
               ]}
-              velocity={20}
+              velocity={18}
               numCopies={3}
-              className="px-3"
+              className="px-2.5"
               parallaxClassName="w-full"
-              scrollerClassName="gap-4"
+              scrollerClassName="gap-3.5"
               separator={null}
             />
           </div>

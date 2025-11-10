@@ -149,7 +149,7 @@ export function ContactSection({ id }: ContactSectionProps) {
     <section
       id={id}
       data-scroll-target={id ? true : undefined}
-      className="mx-auto grid w-full max-w-6xl gap-12 rounded-3xl border border-foreground/5 bg-background/70 p-8 shadow-sm lg:grid-cols-[1.1fr_1fr]"
+      className="mx-auto grid w-full max-w-6xl gap-12 rounded-3xl border border-foreground/5 bg-background/70 p-8 shadow-sm scroll-mt-32 lg:grid-cols-[1.1fr_1fr]"
     >
       <div className="space-y-8">
         <header className="space-y-4">

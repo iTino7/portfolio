@@ -33,7 +33,7 @@ function Home() {
         <section
           id="home"
           data-scroll-target
-          className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center gap-16 px-6 py-12 md:px-12 lg:px-20"
+          className="mx-auto flex h-full w-full max-w-6xl scroll-mt-32 flex-col justify-center gap-16 px-6 py-12 md:px-12 lg:px-20"
         >
           <div className="text-center sm:text-right space-y-6">
             <p className="font-initials text-7xl font-semibold leading-[0.9] tracking-tight text-foreground sm:text-8xl md:text-9xl lg:text-[10rem]">
