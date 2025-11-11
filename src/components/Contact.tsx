@@ -12,6 +12,7 @@ import { type ContactFormErrors, type ContactFormValues, validateContactForm } f
 
 const CONTACT_EMAIL = "Sabatino.b007@gmail.com"
 const CONTACT_PHONE = "+39 331 149 4312"
+const CONTACT_WHATSAPP_URL = "https://wa.me/393311494312"
 const CONTACT_LINKEDIN = "https://www.linkedin.com/in/tinoborrelli"
 
 type ContactSectionProps = {
@@ -175,7 +176,12 @@ export function ContactSection({ id }: ContactSectionProps) {
             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10">
               <Phone className="h-4 w-4" />
             </span>
-            <a href={`tel:${CONTACT_PHONE.replace(/\s+/g, "")}`} className="transition-colors hover:text-primary">
+            <a
+              href={CONTACT_WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-primary"
+            >
               {CONTACT_PHONE}
             </a>
           </li>

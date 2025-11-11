@@ -257,7 +257,10 @@ export function Navbar() {
             type="button"
             aria-expanded={isFloatingNavExpanded}
             onClick={() => setIsFloatingNavExpanded((prev) => !prev)}
-            className="group flex items-center justify-center rounded-r-full bg-white/90 px-1.5 py-3 shadow-md transition ease-in-out duration-500 focus-visible:outline-none dark:bg-foreground/80"
+            className={cn(
+              'group flex items-center justify-center rounded-r-full bg-white/90 px-1.5 py-3 shadow-md transition ease-in-out duration-500 focus-visible:outline-none dark:bg-foreground/80',
+              isFloatingNavExpanded && 'pointer-events-none opacity-0'
+            )}
           >
             <ChevronRight
               className={cn(
@@ -269,8 +272,8 @@ export function Navbar() {
           <aside
             className={cn(
               'flex w-auto flex-col items-center gap-1.5 rounded-full bg-background/75 px-2 py-2.5 shadow-md backdrop-blur transition-all duration-300 ease-out',
-              '-translate-x-4 scale-95 opacity-0 pointer-events-none',
-              isFloatingNavExpanded && 'translate-x-0 scale-100 opacity-100 pointer-events-auto'
+              '-translate-x-8 scale-95 opacity-0 pointer-events-none',
+              isFloatingNavExpanded && '-translate-x-3 scale-100 opacity-100 pointer-events-auto'
             )}
             aria-hidden={!isFloatingNavExpanded}
           >
