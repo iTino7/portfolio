@@ -1,6 +1,13 @@
 import { Link, NavLink } from 'react-router-dom'
-import { useCallback, useEffect, useMemo, useState, type ComponentType } from 'react'
-import { Home, User, BriefcaseBusiness, Mail } from 'lucide-react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+} from 'react'
+import { Home, User, BriefcaseBusiness, Mail, ChevronRight } from 'lucide-react'
 
 import { cn } from '../lib/utils'
 import { ThemeToggle } from './ThemeToggle'
@@ -39,7 +46,9 @@ function handleScrollTo(hash: string) {
 export function Navbar() {
   const [isCompressed, setIsCompressed] = useState(false)
   const [showFloatingNav, setShowFloatingNav] = useState(false)
+  const [isFloatingNavExpanded, setIsFloatingNavExpanded] = useState(false)
   const [activeHash, setActiveHash] = useState<string>('#home')
+  const floatingNavContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => {
@@ -59,6 +68,31 @@ export function Navbar() {
     setShowFloatingNav(false)
     return undefined
   }, [isCompressed])
+
+  useEffect(() => {
+    if (!showFloatingNav) {
+      setIsFloatingNavExpanded(false)
+    }
+  }, [showFloatingNav])
+
+  useEffect(() => {
+    if (!isFloatingNavExpanded) {
+      return
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (
+        floatingNavContainerRef.current &&
+        !floatingNavContainerRef.current.contains(target)
+      ) {
+        setIsFloatingNavExpanded(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isFloatingNavExpanded])
 
   useEffect(() => {
     const scrollItems = links.filter((item): item is NavScrollItem => item.type === 'scroll')
@@ -214,9 +248,47 @@ export function Navbar() {
           </div>
         </nav>
       </header>
+      {showFloatingNav && (
+        <div
+          ref={floatingNavContainerRef}
+          className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 items-center gap-1 md:hidden"
+        >
+          <button
+            type="button"
+            aria-expanded={isFloatingNavExpanded}
+            onClick={() => setIsFloatingNavExpanded((prev) => !prev)}
+            className="group flex items-center justify-center rounded-r-full bg-white px-1.5 py-3 shadow-md transition-all duration-300 ease-out focus-visible:outline-none"
+          >
+            <ChevronRight
+              className={cn(
+                'h-4 w-4 text-black transition-transform duration-300 group-hover:text-black/80',
+                isFloatingNavExpanded && 'rotate-180'
+              )}
+            />
+          </button>
+          <aside
+            className={cn(
+              'flex w-auto flex-col items-center gap-1.5 rounded-full bg-background/75 px-2 py-2.5 shadow-md backdrop-blur transition-all duration-300 ease-out',
+              '-translate-x-4 scale-95 opacity-0 pointer-events-none',
+              isFloatingNavExpanded && 'translate-x-0 scale-100 opacity-100 pointer-events-auto'
+            )}
+            aria-hidden={!isFloatingNavExpanded}
+          >
+            <div className="flex flex-col items-center gap-1.5">
+              {renderLinks({
+                compact: true,
+                showLabels: false,
+                includeThemeToggle: true,
+                className:
+                  'items-center gap-2 text-xs [&>li]:flex [&>li]:items-center [&>li]:justify-center [&>li]:rounded-full [&>li]:p-1.5',
+              })}
+            </div>
+          </aside>
+        </div>
+      )}
       <aside
         className={cn(
-          'fixed left-6 top-1/2 z-40 flex w-auto -translate-y-1/2 flex-col items-center gap-4 rounded-full bg-background/80 px-3 py-4 shadow-lg backdrop-blur transition-all duration-300 ease-out',
+          'fixed left-6 top-1/2 z-40 hidden w-auto -translate-y-1/2 flex-col items-center gap-4 rounded-full bg-background/80 px-3 py-4 shadow-lg backdrop-blur transition-all duration-300 ease-out md:flex',
           showFloatingNav
             ? 'pointer-events-auto opacity-100 translate-y-0'
             : 'pointer-events-none opacity-0 translate-y-2'
@@ -224,7 +296,12 @@ export function Navbar() {
         aria-hidden={!showFloatingNav}
       >
         <div className="flex flex-col items-center gap-4">
-          {renderLinks({ compact: true, showLabels: false, includeThemeToggle: true, className: 'items-center' })}
+          {renderLinks({
+            compact: true,
+            showLabels: false,
+            includeThemeToggle: true,
+            className: 'items-center',
+          })}
         </div>
       </aside>
     </>
