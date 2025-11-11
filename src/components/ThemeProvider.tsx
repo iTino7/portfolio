@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
 type Theme = 'dark' | 'light'
@@ -24,6 +24,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
     return 'light'
   })
+  const isInitialRenderRef = useRef(true)
+  const transitionTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     const root = document.documentElement
@@ -33,6 +35,30 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove('dark')
     }
     localStorage.setItem('theme', theme)
+
+    if (isInitialRenderRef.current) {
+      isInitialRenderRef.current = false
+      return
+    }
+
+    root.classList.add('theme-transition')
+
+    if (transitionTimeoutRef.current !== null) {
+      window.clearTimeout(transitionTimeoutRef.current)
+    }
+
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      root.classList.remove('theme-transition')
+      transitionTimeoutRef.current = null
+    }, 600)
+
+    return () => {
+      root.classList.remove('theme-transition')
+      if (transitionTimeoutRef.current !== null) {
+        window.clearTimeout(transitionTimeoutRef.current)
+        transitionTimeoutRef.current = null
+      }
+    }
   }, [theme])
 
   const toggleTheme = () => {

@@ -47,6 +47,32 @@ body {
   background-repeat: no-repeat;
 }
 
+html,
+body,
+#root {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+}
+
+:root.theme-transition,
+:root.theme-transition body,
+:root.theme-transition #root {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease, fill 0.6s ease,
+    stroke 0.6s ease, box-shadow 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  #root,
+  :root.theme-transition,
+  :root.theme-transition body,
+  :root.theme-transition #root {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 .font-initials {
   font-family: "Playfair Display", serif;
 }

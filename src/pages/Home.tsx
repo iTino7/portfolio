@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { ArrowUp } from "lucide-react"
 
 import { Navbar, SectionStrip, ScrollVelocity } from "../components"
@@ -11,6 +11,7 @@ const NAME = "Sabatino"
 
 function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const scrollAnimationRef = useRef<number | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,9 +23,43 @@ function Home() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current !== null) {
+        cancelAnimationFrame(scrollAnimationRef.current)
+      }
+    }
+  }, [])
+
+  const handleScrollToTop = useCallback(() => {
+    const start = window.scrollY || window.pageYOffset
+    const duration = 2400
+
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current)
+    }
+
+    const startTime = performance.now()
+
+    const easeOutQuint = (t: number) => 1 - Math.pow(1 - t, 5)
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = easeOutQuint(progress)
+
+      window.scrollTo(0, start * (1 - eased))
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(animate)
+      } else {
+        scrollAnimationRef.current = null
+        window.scrollTo(0, 0)
+      }
+    }
+
+    scrollAnimationRef.current = requestAnimationFrame(animate)
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -257,11 +257,11 @@ export function Navbar() {
             type="button"
             aria-expanded={isFloatingNavExpanded}
             onClick={() => setIsFloatingNavExpanded((prev) => !prev)}
-            className="group flex items-center justify-center rounded-r-full bg-white px-1.5 py-3 shadow-md transition-all duration-300 ease-out focus-visible:outline-none"
+            className="group flex items-center justify-center rounded-r-full bg-white/90 px-1.5 py-3 shadow-md transition ease-in-out duration-500 focus-visible:outline-none dark:bg-foreground/80"
           >
             <ChevronRight
               className={cn(
-                'h-4 w-4 text-black transition-transform duration-300 group-hover:text-black/80',
+                'h-4 w-4 text-black transition ease-in-out duration-500 group-hover:text-black/80 dark:text-background dark:group-hover:text-background/80',
                 isFloatingNavExpanded && 'rotate-180'
               )}
             />
