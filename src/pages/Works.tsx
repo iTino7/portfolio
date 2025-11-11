@@ -44,7 +44,7 @@ export function WorksSection({ id }: WorksSectionProps) {
         </a>
       </header>
 
-      <section className="rounded-3xl border border-foreground/5 bg-background/60 p-6 shadow-sm">
+      <section className="rounded-3xl border border-foreground/5 bg-background/60 p-3 sm:p-6 shadow-sm">
         <header className="flex items-center justify-between gap-4">
           <div>
             <p className="font-semibold text-lg">Cronologia contributi</p>
@@ -62,11 +62,11 @@ export function WorksSection({ id }: WorksSectionProps) {
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </header>
-        <figure className="mt-6 overflow-hidden rounded-2xl border border-foreground/10 bg-background">
+        <figure className="mt-6 overflow-hidden rounded-lg bg-background p-1.5 sm:p-2">
           <img
             src={`https://ghchart.rshah.org/0C4A6E/${GITHUB_USERNAME}`}
             alt={`Github contribution chart for ${GITHUB_USERNAME}`}
-            className="w-full"
+            className="w-full scale-[1.02] transform origin-center sm:scale-100"
             loading="lazy"
           />
         </figure>
