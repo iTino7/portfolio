@@ -1,4 +1,5 @@
-export { ThemeProvider, useTheme } from './ThemeProvider'
+export { ThemeProvider } from './ThemeProvider'
+export { useTheme } from './theme-context'
 export { ThemeToggle } from './ThemeToggle'
 export { Navbar } from './Navbar'
 export { SectionStrip } from './SectionStrip'

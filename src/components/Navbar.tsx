@@ -96,28 +96,74 @@ export function Navbar() {
 
   useEffect(() => {
     const scrollItems = links.filter((item): item is NavScrollItem => item.type === 'scroll')
+    const targets = scrollItems
+      .map((item) => document.querySelector(item.href))
+      .filter((element): element is HTMLElement => element instanceof HTMLElement)
+
+    if (targets.length === 0) {
+      return undefined
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
+        const viewportCenter = typeof window !== 'undefined' ? window.innerHeight / 2 : 0
+
+        let candidate: IntersectionObserverEntry | null = null
+        let bestDistance = Number.POSITIVE_INFINITY
+
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveHash(`#${entry.target.id}`)
+          if (!entry.isIntersecting && entry.intersectionRatio <= 0) {
+            return
+          }
+
+          if (viewportCenter === 0) {
+            if (!candidate || entry.intersectionRatio > candidate.intersectionRatio) {
+              candidate = entry
+            }
+            return
+          }
+
+          const rect = entry.boundingClientRect
+          const entryCenter = rect.top + rect.height / 2
+          const distance = Math.abs(entryCenter - viewportCenter)
+
+          if (distance < bestDistance) {
+            bestDistance = distance
+            candidate = entry
           }
         })
+
+        if (!candidate) {
+          candidate = entries.reduce<IntersectionObserverEntry | null>((best, entry) => {
+            if (!entry.target.id) {
+              return best
+            }
+            if (entry.intersectionRatio <= 0) {
+              return best
+            }
+            if (!best || entry.intersectionRatio > best.intersectionRatio) {
+              return entry
+            }
+            return best
+          }, null)
+        }
+
+        if (candidate?.target?.id) {
+          setActiveHash(`#${candidate.target.id}`)
+        }
       },
       {
-        rootMargin: '-45% 0px -45% 0px',
-        threshold: 0.15,
+        rootMargin: '-40% 0px -40% 0px',
+        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
       }
     )
 
-    scrollItems.forEach((item) => {
-      const element = document.querySelector(item.href)
-      if (element instanceof HTMLElement) {
-        observer.observe(element)
-      }
-    })
+    targets.forEach((element) => observer.observe(element))
 
-    return () => observer.disconnect()
+    return () => {
+      targets.forEach((element) => observer.unobserve(element))
+      observer.disconnect()
+    }
   }, [])
 
   const listClassName = useMemo(
