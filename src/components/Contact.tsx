@@ -1,9 +1,6 @@
-import { type FormEvent, useCallback, useMemo, useState } from "react"
+import { type FormEvent, useCallback, useState } from "react"
 import { Linkedin, Mail, Phone, SendHorizonal } from "lucide-react"
 
-import { toast } from "sonner"
-
-import { CONTACT_API_URL } from "../config/contactConfig"
 import { SectionStrip } from "./SectionStrip"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
@@ -20,8 +17,6 @@ type ContactSectionProps = {
   id?: string
 }
 
-type SubmitStatus = "idle" | "loading" | "success" | "error"
-
 function scrollToContact(id: string) {
   const target = document.querySelector(id)
   if (target instanceof HTMLElement) {
@@ -29,12 +24,14 @@ function scrollToContact(id: string) {
   }
 }
 
-export function ContactSection({ id }: ContactSectionProps) {
-  const [status, setStatus] = useState<SubmitStatus>("idle")
-  const [errors, setErrors] = useState<ContactFormErrors>({})
-  const [serverError, setServerError] = useState<string | null>(null)
+function createMailtoLink(values: ContactFormValues) {
+  const message = values.message?.trim() ?? ""
+  return `mailto:${CONTACT_EMAIL}?body=${encodeURIComponent(message)}`
+}
 
-  const mappedEndpoint = useMemo(() => CONTACT_API_URL, [])
+export function ContactSection({ id }: ContactSectionProps) {
+  const [errors, setErrors] = useState<ContactFormErrors>({})
+
 
   const clearError = (field: keyof ContactFormValues) => {
     setErrors((previous) => {
@@ -51,9 +48,6 @@ export function ContactSection({ id }: ContactSectionProps) {
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       const form = event.currentTarget
-      setStatus("idle")
-      setServerError(null)
-
       const formData = new FormData(form)
       const rawData: ContactFormValues = {
         name: formData.get("name")?.toString()?.trim() ?? "",
@@ -79,70 +73,15 @@ export function ContactSection({ id }: ContactSectionProps) {
       }
 
       setErrors({})
-      setStatus("loading")
 
-      try {
-        const response = await fetch(mappedEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(parsed.data),
-        })
-
-        if (response.status === 400) {
-          let payload: unknown = null
-          try {
-            payload = await response.json()
-          } catch {
-            payload = null
-          }
-
-          if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-            const incomingErrors = payload as Record<string, unknown>
-            const nextErrors: ContactFormErrors = {}
-            ;(Object.keys(incomingErrors) as Array<keyof ContactFormValues>).forEach((key) => {
-              const value = incomingErrors[key]
-              if (typeof value === "string") {
-                nextErrors[key] = value
-              }
-              if (Array.isArray(value) && typeof value[0] === "string") {
-                nextErrors[key] = value[0]
-              }
-            })
-
-            if (Object.keys(nextErrors).length > 0) {
-              setErrors(nextErrors)
-            }
-          }
-
-          setStatus("error")
-          const feedbackMessage = "Controlla i campi evidenziati e riprova."
-          setServerError(feedbackMessage)
-          toast.error(feedbackMessage, { duration: Infinity })
-          return
-        }
-
-        if (!response.ok) {
-          setStatus("error")
-          const feedbackMessage = "Si è verificato un errore durante l'invio. Riprova più tardi."
-          setServerError(feedbackMessage)
-          toast.error(feedbackMessage, { duration: Infinity })
-          return
-        }
-
-        form.reset()
-        setServerError(null)
-        setStatus("success")
-        toast.success("Messaggio inviato! Ti risponderò il prima possibile.", { duration: Infinity })
-      } catch {
-        setStatus("error")
-        const feedbackMessage = "Connessione al server non riuscita. Verifica la rete o riprova più tardi."
-        setServerError(feedbackMessage)
-        toast.error(feedbackMessage, { duration: Infinity })
+      const mailtoLink = createMailtoLink(parsed.data)
+      if (typeof window !== "undefined") {
+        window.location.href = mailtoLink
       }
+
+      form.reset()
     },
-    [mappedEndpoint]
+    []
   )
 
   return (
@@ -277,15 +216,10 @@ export function ContactSection({ id }: ContactSectionProps) {
               </p>
             )}
           </div>
-          <Button
-            type="submit"
-            className="w-full justify-center gap-2 cursor-pointer"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Invio in corso..." : "Invia messaggio"}
+          <Button type="submit" className="w-full justify-center gap-2 cursor-pointer">
+            Invia messaggio
             <SendHorizonal className="h-4 w-4" />
           </Button>
-          {serverError && <p className="text-sm text-destructive">{serverError}</p>}
         </form>
       </div>
     </section>
