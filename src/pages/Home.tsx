@@ -134,7 +134,7 @@ function Home() {
         type="button"
         variant="outline"
         size="icon"
-        className={`group fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full border-foreground/30 bg-background/75 shadow-lg backdrop-blur transition-all duration-300 ease-out hover:-translate-y-0.5 ${
+        className={`group fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full border-foreground/30 bg-background/75 shadow-lg backdrop-blur transition-all duration-300 ease-out hover:-translate-y-0.5 dark:bg-foreground dark:text-background ${
           showScrollTop
             ? "pointer-events-auto opacity-100 translate-y-0"
             : "pointer-events-none opacity-0 translate-y-2"
@@ -144,7 +144,7 @@ function Home() {
         tabIndex={showScrollTop ? 0 : -1}
         aria-hidden={!showScrollTop}
       >
-        <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" />
+        <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5 dark:text-background" />
       </Button>
     </div>
   )
