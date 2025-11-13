@@ -214,9 +214,17 @@ export function Navbar() {
         onNavigate?: () => void
         showLabels?: boolean
         includeThemeToggle?: boolean
+        dividerClassName?: string
       } = {}
     ) => {
-      const { compact = false, className, onNavigate, showLabels = true, includeThemeToggle = false } = options
+      const {
+        compact = false,
+        className,
+        onNavigate,
+        showLabels = true,
+        includeThemeToggle = false,
+        dividerClassName,
+      } = options
 
       return (
         <ul
@@ -268,7 +276,13 @@ export function Navbar() {
             )
           })}
           {includeThemeToggle && compact && (
-            <li aria-hidden="true" className="h-px w-7 rounded-full bg-foreground/20 dark:bg-foreground/30" />
+            <li
+              aria-hidden="true"
+              className={cn(
+                'h-px w-7 bg-foreground/20 dark:bg-foreground/30',
+                dividerClassName
+              )}
+            />
           )}
           {includeThemeToggle && (
             <li>
@@ -333,6 +347,7 @@ export function Navbar() {
                 includeThemeToggle: true,
                 className:
                   'items-center gap-2 text-xs [&>li]:flex [&>li]:items-center [&>li]:justify-center [&>li]:rounded-full [&>li]:p-1.5',
+                dividerClassName: 'h-px w-7 bg-foreground/20 dark:bg-foreground/30 rounded-none !p-0',
               })}
             </div>
           </aside>
