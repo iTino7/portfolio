@@ -45,9 +45,9 @@ export default function AboutSection() {
           <span className="pointer-events-none absolute left-0 top-0 -translate-x-2 font-script text-4xl text-foreground/30 dark:text-foreground/40 md:-top-2 md:-translate-y-2">
             &lt;h/&gt;
           </span>
-          <div className="flex w-full max-w-xl flex-col gap-6 text-center">
+          <div className="flex w-full max-w-xl flex-col gap-6 text-center mb-20">
             <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-muted-foreground">
-              Sono Sabatino, front-end developer che dà vita a interfacce pulite e coerenti con l’identità del brand. Mi piace trasformare concept grezzi in esperienze tangibili, curando micro-interazioni, performance e qualità del codice. Collaboro con designer e stakeholder per ottenere feedback rapidi e trovare soluzioni chiare, funzionali e pensate per le persone.
+              Sono Sabatino, front-end developer che dà vita a interfacce pulite e coerenti con l’identità del brand. Mi piace trasformare concept grezzi in esperienze tangibili, curando micro-interazioni, performance e qualità del codice. Lavoro fianco a fianco con designer e team di progetto per trasformare feedback rapidi in soluzioni nitide, funzionali e centrate sulle persone.
             </p>
             <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] leading-relaxed font-medium text-muted-foreground">
               Fuori dallo schermo mi dedico alle mie passioni: sport, film e serie TV. Mi aiutano a mantenere disciplina, intuito narrativo e attenzione ai dettagli—gli stessi ingredienti che porto nei progetti digitali per renderli coinvolgenti e ben equilibrati.
