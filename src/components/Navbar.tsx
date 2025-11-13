@@ -267,6 +267,9 @@ export function Navbar() {
               </li>
             )
           })}
+          {includeThemeToggle && compact && (
+            <li aria-hidden="true" className="h-px w-7 rounded-full bg-foreground/20 dark:bg-foreground/30" />
+          )}
           {includeThemeToggle && (
             <li>
               <ThemeToggle />

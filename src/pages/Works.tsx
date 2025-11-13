@@ -1,4 +1,5 @@
 import { ArrowUpRight, Github } from "lucide-react"
+import { useEffect, useRef } from "react"
 
 import { Navbar } from "../components"
 import { ContactBanner, ContactSection, FooterSection } from "../components/Contact"
@@ -10,6 +11,20 @@ type WorksSectionProps = {
 }
 
 export function WorksSection({ id }: WorksSectionProps) {
+  const contributionsContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const container = contributionsContainerRef.current
+    if (!container) return
+
+    const isSmallScreen = window.matchMedia("(max-width: 640px)").matches
+    if (!isSmallScreen) return
+
+    requestAnimationFrame(() => {
+      container.scrollTo({ left: container.scrollWidth, behavior: "auto" })
+    })
+  }, [])
+
   return (
     <section
       id={id}
@@ -62,14 +77,16 @@ export function WorksSection({ id }: WorksSectionProps) {
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </header>
-        <figure className="mt-6 overflow-hidden rounded-lg bg-background p-1.5 sm:p-2">
-          <img
-            src={`https://ghchart.rshah.org/0C4A6E/${GITHUB_USERNAME}`}
-            alt={`Github contribution chart for ${GITHUB_USERNAME}`}
-            className="w-full scale-[1.02] transform origin-center sm:scale-100"
-            loading="lazy"
-          />
-        </figure>
+        <div ref={contributionsContainerRef} className="-mx-3 mt-6 overflow-x-auto sm:mx-0">
+          <figure className="mx-auto min-w-[720px] max-w-none overflow-hidden rounded-lg bg-background p-2 sm:min-w-0 sm:max-w-full sm:p-2">
+            <img
+              src={`https://ghchart.rshah.org/0C4A6E/${GITHUB_USERNAME}`}
+              alt={`Github contribution chart for ${GITHUB_USERNAME}`}
+              className="w-full"
+              loading="lazy"
+            />
+          </figure>
+        </div>
       </section>
     </section>
   )
