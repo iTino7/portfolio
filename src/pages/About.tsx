@@ -27,7 +27,9 @@ const techIcons = [
   { id: "tanstack-query", Icon: SiReactquery, hoverClass: "group-hover:text-[#ff4154] dark:group-hover:text-[#ff4154]" },
   { id: "bootstrap", Icon: SiBootstrap, hoverClass: "group-hover:text-[#7952b3] dark:group-hover:text-[#7952b3]" },
   { id: "mui", Icon: SiMui, hoverClass: "group-hover:text-[#007fff] dark:group-hover:text-[#007fff]" },
-];
+]
+
+const techIconsLoop = [...techIcons, ...techIcons]
 
 export default function AboutSection() {
   return (
@@ -70,24 +72,24 @@ export default function AboutSection() {
             </p>
             <ScrollVelocity
               texts={[
-                <div key="tech-strip" className="flex w-full items-center justify-center gap-3">
-                  {techIcons.map(({ id, Icon, hoverClass }) => (
+                <div key="tech-strip" className="flex w-full min-w-full items-center justify-between">
+                  {techIconsLoop.map(({ id, Icon, hoverClass }, index) => (
                     <span
-                      key={id}
-                      className="group inline-flex cursor-pointer items-center justify-center px-2.5 text-current transition-colors duration-200"
+                      key={`${id}-${index}`}
+                      className="group flex flex-1 cursor-pointer items-center justify-center px-3 py-1 text-current transition-colors duration-200"
                     >
                       <Icon
-                        className={`h-7 w-7 text-inherit transition-colors duration-200 ${hoverClass}`}
+                        className={`h-8 w-8 text-inherit transition-colors duration-200 ${hoverClass}`}
                       />
                     </span>
                   ))}
                 </div>
               ]}
               velocity={18}
-              numCopies={3}
+              numCopies={4}
               className="px-2.5"
               parallaxClassName="w-full"
-              scrollerClassName="gap-3.5"
+              scrollerClassName="gap-0"
               separator={null}
             />
           </div>
