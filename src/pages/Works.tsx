@@ -82,8 +82,14 @@ export function WorksSection({ id }: WorksSectionProps) {
             <img
               src={`https://ghchart.rshah.org/0C4A6E/${GITHUB_USERNAME}`}
               alt={`Github contribution chart for ${GITHUB_USERNAME}`}
-              className="w-full"
+              className="w-full h-auto"
               loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement
+                if (!target.src.includes('github-contributions')) {
+                  target.src = `https://github-contributions-api.deno.dev/${GITHUB_USERNAME}.svg`
+                }
+              }}
             />
           </figure>
         </div>
